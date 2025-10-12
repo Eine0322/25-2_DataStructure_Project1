@@ -30,38 +30,12 @@ N.Flying/songbird/3:46
 N.Flying/rooftop/3:19
 N.Flying/oh really./3:10
 ======================
-========SEARCH========
-Error: Title not found
-======================
-========SEARCH========
-Error: Title not found
-======================
-========MAKEPL========
-N.Flying/blue moon/3:36
-Count 1/10
-Time 3min 36sec
-======================
-========MAKEPL========
-N.Flying/blue moon/3:36
-N.Flying/moonshot/3:26
-Count 2/10
-Time 7min 02sec
-======================
-========MAKEPL========
-N.Flying/blue moon/3:36
-N.Flying/moonshot/3:26
-N.Flying/songbird/3:46
-Count 3/10
-Time 10min 48sec
-======================
-========MAKEPL========
-N.Flying/blue moon/3:36
-N.Flying/moonshot/3:26
-N.Flying/songbird/3:46
-N.Flying/rooftop/3:19
-Count 4/10
-Time 14min 07sec
-======================
+========ERROR========
+400
+=====================
+========ERROR========
+400
+=====================
 ========MAKEPL========
 N.Flying/blue moon/3:36
 N.Flying/moonshot/3:26
@@ -70,52 +44,6 @@ N.Flying/rooftop/3:19
 N.Flying/oh really./3:10
 Count 5/10
 Time 17min 17sec
-======================
-========MAKEPL========
-N.Flying/blue moon/3:36
-N.Flying/moonshot/3:26
-N.Flying/songbird/3:46
-N.Flying/rooftop/3:19
-N.Flying/oh really./3:10
-PSY/gangnam style/3:25
-Count 6/10
-Time 20min 42sec
-======================
-========MAKEPL========
-N.Flying/blue moon/3:36
-N.Flying/moonshot/3:26
-N.Flying/songbird/3:46
-N.Flying/rooftop/3:19
-N.Flying/oh really./3:10
-PSY/gangnam style/3:25
-PSY/gentleman/3:14
-Count 7/10
-Time 23min 56sec
-======================
-========MAKEPL========
-N.Flying/blue moon/3:36
-N.Flying/moonshot/3:26
-N.Flying/songbird/3:46
-N.Flying/rooftop/3:19
-N.Flying/oh really./3:10
-PSY/gangnam style/3:25
-PSY/gentleman/3:14
-PSY/daddy/3:32
-Count 8/10
-Time 27min 28sec
-======================
-========MAKEPL========
-N.Flying/blue moon/3:36
-N.Flying/moonshot/3:26
-N.Flying/songbird/3:46
-N.Flying/rooftop/3:19
-N.Flying/oh really./3:10
-PSY/gangnam style/3:25
-PSY/gentleman/3:14
-PSY/daddy/3:32
-PSY/new face/3:16
-Count 9/10
-Time 30min 44sec
 ======================
 ========MAKEPL========
 N.Flying/blue moon/3:36

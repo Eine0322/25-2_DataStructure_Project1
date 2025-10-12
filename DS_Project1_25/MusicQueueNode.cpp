@@ -1,9 +1,10 @@
+// Implementation of MusicQueueNode and utility functions.
 #include "MusicQueueNode.h"
 #include <sstream>
 #include <vector>
 #include <stdexcept>
 
-// Helper to convert M:SS to seconds
+// Converts "M:SS" string to total seconds.
 int stringToSeconds(const string& timeStr) {
 	size_t colonPos = timeStr.find(':');
 	if (colonPos == string::npos) return 0;
@@ -19,7 +20,7 @@ int stringToSeconds(const string& timeStr) {
 	}
 }
 
-// Helper to split string
+// Splits a string into tokens by a delimiter.
 void split(const string& s, char delimiter, vector<string>& tokens) {
     string token;
     istringstream tokenStream(s);
@@ -28,6 +29,7 @@ void split(const string& s, char delimiter, vector<string>& tokens) {
     }
 }
 
+// Constructor: parses a raw "Artist|Title|Runtime" string.
 MusicQueueNode::MusicQueueNode(const string& data) : next(nullptr), rt_seconds(0) {
     vector<string> tokens;
     split(data, '|', tokens);

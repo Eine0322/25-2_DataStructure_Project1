@@ -1,11 +1,14 @@
+// Implementation of the PlayList class.
 #include "PlayList.h"
 #include <iostream>
 #include <iomanip>
 
+// Destructor.
 PlayList::~PlayList() {
 	clear();
 }
 
+// Deletes all nodes and resets the list state.
 void PlayList::clear() {
 	if (empty()) return;
 	
@@ -21,14 +24,17 @@ void PlayList::clear() {
 	time = 0;
 }
 
+// Checks if the playlist is empty.
 bool PlayList::empty() const {
 	return head == nullptr;
 }
 
+// Checks if the playlist is full (max 10 songs).
 bool PlayList::full() const {
 	return count >= 10;
 }
 
+// Checks if a song exists in the playlist.
 bool PlayList::exist(const string& artist, const string& title) const {
 	if (empty()) return false;
 	
@@ -39,56 +45,56 @@ bool PlayList::exist(const string& artist, const string& title) const {
 		}
 		current = current->getNext();
 	} while (current != head);
-	
 	return false;
 }
 
-void PlayList::insert_node(MusicQueueNode* data, ostream& os) {
-	if (full()) {
-		os << "========ERROR========" << endl;
-		os << "500" << endl;
-		os << "=====================" << endl;
-		return;
-	}
-	
-	if (exist(data->getArtist(), data->getTitle())) {
-		return; // Already exists, skip insertion
+// Inserts multiple songs and prints the final state once.
+void PlayList::insert_nodes(const vector<MusicQueueNode*>& songs, ostream& os) {
+	bool inserted = false;
+	for (MusicQueueNode* data : songs) {
+		if (exist(data->getArtist(), data->getTitle())) {
+			continue;
+		}
+
+		PlayListNode* newNode = new PlayListNode(data->getArtist(), data->getTitle(), data->getRunTime(), data->getRtSeconds());
+		
+		if (empty()) {
+			head = newNode;
+			head->setNext(head);
+			head->setPrev(head);
+			cursor = head;
+		} else {
+			PlayListNode* rear = head->getPrev();
+			rear->setNext(newNode);
+			newNode->setPrev(rear);
+			newNode->setNext(head);
+			head->setPrev(newNode);
+		}
+		
+		count++;
+		time += newNode->getRuntimeSec();
+		inserted = true;
 	}
 
-	PlayListNode* newNode = new PlayListNode(data->getArtist(), data->getTitle(), data->getRunTime(), data->getRtSeconds());
-	
-	if (empty()) {
-		head = newNode;
-		head->setNext(head);
-		head->setPrev(head);
-		cursor = head;
-	} else {
-		PlayListNode* rear = head->getPrev();
-		rear->setNext(newNode);
-		newNode->setPrev(rear);
-		newNode->setNext(head);
-		head->setPrev(newNode);
+	if (inserted) {
+		// Print the final state after all additions.
+		os << "========MAKEPL========" << endl;
+		PlayListNode* current = head;
+		for(int i = 0; i < count; ++i) {
+			os << current->toString() << endl;
+			current = current->getNext();
+		}
+		
+		int total_min = time / 60;
+		int total_sec = time % 60;
+		os << "Count " << count << "/10" << endl;
+		os << "Time " << total_min << "min " << setfill('0') << setw(2) << total_sec << "sec" << endl;
+		os << "======================" << endl;
 	}
-	
-	count++;
-	time += newNode->getRuntimeSec();
-
-	// Print all current songs in the list
-	os << "========MAKEPL========" << endl;
-	PlayListNode* current = head;
-	for(int i = 0; i < count; ++i) {
-		os << current->toString() << endl;
-		current = current->getNext();
-	}
-	
-	int total_min = time / 60;
-	int total_sec = time % 60;
-	
-	os << "Count " << count << "/10" << endl;
-	os << "Time " << total_min << "min " << setfill('0') << setw(2) << total_sec << "sec" << endl;
-	os << "======================" << endl;
 }
 
+
+// Deletes a single song from the playlist.
 bool PlayList::delete_node(const string& artist, const string& title) {
 	if (empty()) return false;
 	
@@ -106,14 +112,13 @@ bool PlayList::delete_node(const string& artist, const string& title) {
 
 	time -= target->getRuntimeSec();
 	count--;
-	
+
 	if (count == 0) {
 		delete target;
 		head = cursor = nullptr;
 	} else {
 		target->getPrev()->setNext(target->getNext());
 		target->getNext()->setPrev(target->getPrev());
-		
 		if (target == head) {
 			head = target->getNext();
 		}
@@ -126,15 +131,16 @@ bool PlayList::delete_node(const string& artist, const string& title) {
 	return true;
 }
 
+// Prints the contents of the playlist.
 void PlayList::print(ostream& os) {
-	os << "========PRINT========" << endl;
 	if (empty()) {
-		os << "Count : 0 / 10" << endl;
-		os << "Time : 0min 00sec" << endl;
+		os << "========ERROR========" << endl;
+		os << "600" << endl;
 		os << "=====================" << endl;
 		return;
 	}
-
+	
+	os << "========PRINT========" << endl;
 	PlayListNode* current = head;
 	for(int i = 0; i < count; ++i) {
 		os << current->toString() << endl;
@@ -143,7 +149,6 @@ void PlayList::print(ostream& os) {
 	
 	int total_min = time / 60;
 	int total_sec = time % 60;
-
 	os << "Count : " << count << " / 10" << endl;
 	os << "Time : " << total_min << "min " << setfill('0') << setw(2) << total_sec << "sec" << endl;
 	os << "=====================" << endl;
