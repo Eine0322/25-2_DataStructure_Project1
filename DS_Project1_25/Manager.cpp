@@ -57,7 +57,6 @@ void Manager::run(const char* command_file) {
 
 		if (tokens.empty()) continue;
 		string cmd = tokens[0];
-
 		// Command dispatcher.
 		if (cmd == "LOAD") {
 			LOAD();
@@ -130,11 +129,19 @@ void Manager::handleSearch(const vector<string>& tokens) {
 	string type = tokens[1];
 	string key1 = tokens[2];
 
+    // FIX START: Combine tokens[2] onwards for multi-word ARTIST and TITLE search keys.
+    if (type == "ARTIST" || type == "TITLE") {
+        for (size_t i = 3; i < tokens.size(); ++i) {
+            key1 += " " + tokens[i];
+        }
+    }
+    // FIX END
+
 	if (type == "ARTIST") {
 		ab.search(key1, flog);
 	} else if (type == "TITLE") {
 		tb.search(key1, flog);
-	} else if (type == "SONG" && tokens.size() == 3) {
+	} else if (type == "SONG" && tokens.size() >= 3) {
 		vector<string> song_tokens;
 		split(key1, '|', song_tokens);
 		if (song_tokens.size() == 2) {
@@ -148,8 +155,15 @@ void Manager::handleMakePL(const vector<string>& tokens) {
 	string type = tokens[1];
 	string key1 = tokens[2];
 	
+	// FIX START: Combine tokens[2] onwards for multi-word ARTIST and TITLE keys.
+    if (type == "ARTIST" || type == "TITLE") {
+        for (size_t i = 3; i < tokens.size(); ++i) {
+            key1 += " " + tokens[i];
+        }
+    }
+    // FIX END
+	
 	vector<MusicQueueNode*> songs_to_add;
-
 	// Retrieve songs from the appropriate BST.
 	if (type == "ARTIST") {
 		songs_to_add = ab.getSongs(key1);
@@ -165,7 +179,6 @@ void Manager::handleMakePL(const vector<string>& tokens) {
 	}
 	
 	if (songs_to_add.empty()) return;
-
 	// Check for space before adding.
 	if (pl.getCount() + songs_to_add.size() > 10) {
 		logError(500);
@@ -196,6 +209,14 @@ void Manager::handleDelete(const vector<string>& tokens) {
 	string type = tokens[1];
 	string key1 = tokens[2];
 	bool success = false;
+	
+	// FIX START: Combine tokens[2] onwards for multi-word ARTIST and TITLE delete keys.
+    if (type == "ARTIST" || type == "TITLE") {
+        for (size_t i = 3; i < tokens.size(); ++i) {
+            key1 += " " + tokens[i];
+        }
+    }
+    // FIX END
 
 	if (type == "ARTIST") {
 		if (ab.exist(key1)) {
